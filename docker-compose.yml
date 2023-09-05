@@ -8,6 +8,17 @@ services:
       - bdd
     env_file:
       - .env
+      - .bot.env
+    depends_on:
+      - mongodb
+  feed:
+    image: ghcr.io/chasseur-de-succes/cds-steam-feed:main
+    restart: always
+    networks:
+      - bdd
+    env_file:
+      - .env
+      - .feed.env
     depends_on:
       - mongodb
   mongodb:
