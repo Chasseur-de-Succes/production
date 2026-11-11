@@ -11,6 +11,7 @@ services:
       - .bot.env
     depends_on:
       - mongodb
+      - postgres
   feed:
     image: ghcr.io/chasseur-de-succes/cds-steam-feed:main
     restart: always
@@ -21,11 +22,21 @@ services:
       - .feed.env
     depends_on:
       - mongodb
+      - postgres
   mongodb:
     image: mongo:7.0
     restart: always
     volumes:
       - /opt/cds:/data/db
+    networks:
+      - bdd
+  postgres:
+    image: postgres:15
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - /opt/cds-pg:/var/lib/postgresql/data
     networks:
       - bdd
 
